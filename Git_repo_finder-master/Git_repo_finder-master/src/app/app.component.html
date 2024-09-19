@@ -1,0 +1,94 @@
+<nav class="navbar navbar-light bg-secondary">
+  <div class="container-fluid">
+    <a class="navbar-brand fs-2">GitRepoFinder</a>
+    <div class="d-flex">
+      <input
+        class="form-control me-2 fs-4"
+        type="text"
+        [(ngModel)]="username"
+        placeholder="enter username"
+        aria-label="Search"
+      />
+      <button class="btn btn-outline-dark fs-3" (click)="searchRepos()">
+        Search
+      </button>
+    </div>
+  </div>
+</nav>
+<div [style.display]="displayV">
+  <div class="container my-5">
+    <div class="bg-light p-5 rounded">
+      <div class="col-sm-8 py-5 mx-auto">
+        <h1 class="display-5 fw-normal">Find - GitHub User Repository</h1>
+        <p class="fs-3">This App is GitHub User Repository Provider.To fatch repository of user . Enter username in search bar and search it </p>
+        <p class="fs-5">Angular is a popular open-source web application framework maintained by Google and a community of developers. It's widely used for building single-page web applications (SPAs) and dynamic web applications.</p>
+    </div>
+    </div>
+  </div>
+</div>
+<p *ngIf="loading">Loading...</p>
+<h5 *ngIf="error" class="text-center fs-i mt-3" style="color: red">
+  {{ error }}
+</h5>
+<ul  *ngIf="repos.length===0 " style="color: orangered; font-size: xx-large ; text-align: center;">No repository associated to this user </ul>
+<ul *ngIf="repos.length">
+  <div class="container">
+    <h2 style="color: brown">UserName: {{ username }}</h2>
+    <h3 style="color: burlywood">Total Repository : {{ repos.length }}</h3>
+  </div>
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+      grid-gap: 2rem;
+    "
+  >
+    <li *ngFor="let repo of repos" style="list-style-type: none">
+      <!-- <app-gituser></app-gituser> -->
+      <div class="card" style="height: 5cm; background-color: #496179 ; border: solid #19e184 6px; border-radius: 5px;">
+        <div class="card-body">
+          <h2 class="card-title">{{ repo.name }}</h2>
+          <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> -->
+          <p class="card-text">
+            {{
+              repo.description === null || repo.description === undefined
+                ? "No descrption "
+                : repo.description.substr(0, 15)
+            }}
+          </p>
+          <div style="margin-top: 1.5cm">
+            <button
+              style="
+                border-radius: 3px;
+                width: 3cm;
+                background-color: cornflowerblue;
+              "
+            >
+              <a
+                href="{{ repo.html_url }}"
+                style="text-decoration: none"
+                target="_blank"
+                class="card"
+                >View Repo</a
+              >
+            </button>
+            <button
+              class="card-link mx-2"
+              style="
+                border-radius: 5px;
+                width: 3cm;
+                background-color: blueviolet;
+              "
+            >
+              {{
+                repo.language === null || repo.language === undefined
+                  ? "No Language"
+                  : repo.language
+              }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </div>
+</ul>
